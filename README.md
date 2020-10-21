@@ -111,7 +111,10 @@ NOTE: Consider the following image during your tests:
 
 To check the duration to go from a city to another you can connect to Neo4j on http://localhost:7474 and run:
 > MATCH(N) RETURN N
+
  On each relationship you will be able to see the arrivalTime and the departureTime:
+
+
 ![alt text](https://i.postimg.cc/SKvQGS3n/cattututut.png)
 
 

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: adidas-product-creation-rest
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+#      defaultZone: http://discovery-eureka:8761/eureka
+      defaultZone: http://discovery-eureka:8761/eureka,http://localhost:8761/eureka
+
+  instance:
+    preferIpAddress: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: basic
+        errorDecoder: com.adidas.product.creation.rest.exception.IntegrationExceptionDecoder

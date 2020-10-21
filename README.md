@@ -36,8 +36,9 @@ You can connect to http://localhost:7474 and run the following query that return
 
 You can also try to add new connections among cities. 
 In this case, you can use the following statement:
-
+```
 CREATE (Pamplona)-[:CONNECTED_TO { departureTime: time({hour:15, minute:00, second:00}), arrivalTime:time({hour:21, minute:10, second:00}) }]->(Bilbao)
+```
 
 *Besides in the file called 'cypher_query.cql' you can find the create statements that are executed on the microservices startup.*
 

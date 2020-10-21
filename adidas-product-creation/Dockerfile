@@ -8,9 +8,8 @@ FROM neo4j:latest
 
 # https://github.com/neo4j/docker-neo4j/issues/166#issuecomment-486890785
 COPY wrapper.sh wrapper.sh
-
+RUN chmod 755 wrapper.sh
 # Where the load the cyphers to seed the database
 VOLUME /cyphers
 
-RUN ["chmod", "+x", "./wrapper.sh"]
 ENTRYPOINT ["./wrapper.sh"]

@@ -3,9 +3,6 @@ version: '2.2'
 services:
     discovery-eureka: 
       container_name: adidas-product-creation-service-registry
-      build:
-            context: .
-            dockerfile: adidas-product-creation-service-registry/Dockerfile
       image: adidas-product-creation-service-registry:latest
       expose:
         - 8761
@@ -16,9 +13,6 @@ services:
        
     product-creation-client:
       container_name: adidas-product-creation-client
-      build:
-        context: .
-        dockerfile: adidas-product-creation-client/Dockerfile
       image: adidas-product-creation-client:latest
       entrypoint: /opt/bin/client-entrypoint.sh
       expose:
@@ -34,9 +28,6 @@ services:
 
     product-creation-rest:
       container_name: adidas-product-creation-rest
-      build:
-        context: .
-        dockerfile: adidas-product-creation-rest/Dockerfile
       image: adidas-product-creation-rest:latest
       entrypoint: /opt/bin/rest-entrypoint.sh
       expose:

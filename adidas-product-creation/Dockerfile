@@ -12,4 +12,5 @@ COPY wrapper.sh wrapper.sh
 # Where the load the cyphers to seed the database
 VOLUME /cyphers
 
+RUN ["chmod", "+x", "./wrapper.sh"]
 ENTRYPOINT ["./wrapper.sh"]

@@ -8,6 +8,7 @@ This Java project has been implemented using:
  - An "adidas-product-creation-service-registry" microservice as Eureka Service Registry
  - An "adidas-product-creation-client" microservice that deals with querying Neo4J NoSQL
  - An "adidas-product-creation-rest" microservice that is the entry point of the application.
+ - On http://localhost:8761/ you can find the Eureka Service Registry and you can check when the microservices are ready
 
 # Building and Running
 
@@ -28,36 +29,93 @@ need to build the image again using the following ommand:
 Neo4j DB is running on: http://localhost:7474. The neo4j container has been created with some data. You can find some Spanish cities and the corresponding connections as you can
 see in the following picture:![alt text](https://i.postimg.cc/VkcpCxNX/graph-1.png)
 
-Each relationship has the the arrivalTime and the departureTime as a relationship property. 
+*Each relationship has the the arrivalTime and the departureTime as a relationship property.*
 
-Here you can find some simple query that you can execute to query Neo4j:
+You can connect to http://localhost:7474 and run the following query that returns all nodes and relationships:
+> MATCH(N) RETURN (N) 
 
-- RETURNS ALL NODES AND ALL RELATIONSHIPS
-
-> MATCH(N)
-  RETURN (N)
-
-- RETURN ALL CITY NODES:
-> MATCH(N:City)
-  RETURN (N)
-
-You can also try to add new connections among cities. In this case, you can use the following statement:
+You can also try to add new connections among cities. 
+In this case, you can use the following statement:
 
 CREATE (Pamplona)-[:CONNECTED_TO { departureTime: time({hour:15, minute:00, second:00}), arrivalTime:time({hour:21, minute:10, second:00}) }]->(Bilbao)
 
-Besides in the file called 'cypher_query.cql' you can find the create statements that are executed on the microservices startup.
+*Besides in the file called 'cypher_query.cql' you can find the create statements that are executed on the microservices startup.*
+
+# REST
 
 You can find the Swagger on the following endpoint: http://localhost:8080/swagger-ui.html#/shortest-path-controller
 
-The first method you can try is a **POST on connections-shortest-path** that can find the shortest path based on the number of connections.
-For example you can try the following POST using a Curl (you can use the Swagger too):
+There are two different methods you can run:
+- connections-shortest-path -> shortest path based on the number of connections
+- time-shortest-path -> shortest path based on the duration 
 
+Both of them can be called using a POST. Here is the payload you need to set in your request:
+```
+    {
+      "departureCity": "string",
+      "destinationCity": "string"
+    }'
+```
+As response you will have the following:
+```
+{
+    "shortestPathCitiesMap": {
+        "1": "city1",
+        "2": "city2",
+        "3": "city3
+    },
+    "shortesPathRepresentation": "city1->city2->city3"
+}
+```
+Examples:
+
+```
 curl --location --request POST 'http://localhost:8080/connections-shortest-path' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "departureCity": "Zaragoza",
   "destinationCity": "Barcelona"
 }'
+
+{
+    "shortestPathCitiesMap": {
+        "1": "Zaragoza",
+        "2": "Barcelona"
+    },
+    "shortesPathRepresentation": "Zaragoza->Barcelona"
+}
+
+```
+
+```
+curl --location --request POST 'http://localhost:8080/time-shortest-path' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "departureCity": "Zaragoza",
+  "destinationCity": "Barcelona"
+}'
+
+{
+    "shortestPathCitiesMap": {
+        "1": "Zaragoza",
+        "2": "Tarragona",
+        "3": "Barcelona"
+    },
+    "shortesPathRepresentation": "Zaragoza->Tarragona->Barcelona"
+}
+```
+
+
+NOTE: Consider the following image during your tests:
+![alt text](https://i.postimg.cc/VkcpCxNX/graph-1.png)
+
+To check the duration to go from a city to another you can connect to Neo4j on http://localhost:7474 and run:
+> MATCH(N) RETURN N
+ On each relationship you will be able to see the arrivalTime and the departureTime:
+![alt text](https://i.postimg.cc/SKvQGS3n/cattututut.png)
+
+
+
 
 
 

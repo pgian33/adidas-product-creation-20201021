@@ -91,11 +91,11 @@ public class ShortestPathController {
 					ShortestPathRequest.formatCityName(shortestPathRequest.getDestinationCity()));
 			
 			String queryResultMessage = shortestPathModel.getMessage();
-			String queryResultStatus = shortestPathModel.getMessage();
+			String queryResultStatus = shortestPathModel.getStatus();
 			Integer queryResultCode = shortestPathModel.getHttpStatusCode();
 			LOGGER.info("-- shortestPathModel: queryResultMessage={}, queryResultStatus={}, queryResultCode={}", queryResultMessage, queryResultStatus, queryResultCode);
 			
-			if(queryResultStatus.equals("OK")) {
+			if("OK".equals(queryResultStatus)) {
 				ShortestPathResponse shortestPathResponse = ProductCreationHelper.getShortestPathFromJson(shortestPathModel.getCities());
 				return new ResponseEntity<>(shortestPathResponse, HttpStatus.valueOf(queryResultCode));
 			}
